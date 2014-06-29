@@ -41,7 +41,7 @@ class Migration(SchemaMigration):
             ('create_date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('modify_date', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
             ('text', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('bar', self.gf('django.db.models.fields.related.ForeignKey')(related_name='bingo_squares', to=orm['bingo.Bar'])),
+            ('bar', self.gf('django.db.models.fields.related.ForeignKey')(default=None, related_name='bingo_squares', null=True, to=orm['bingo.Bar'])),
             ('is_global', self.gf('django.db.models.fields.BooleanField')(default=True)),
             ('needs_proof', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('needs_confirm', self.gf('django.db.models.fields.BooleanField')(default=False)),
@@ -51,8 +51,8 @@ class Migration(SchemaMigration):
         # Adding unique constraint on 'BingoSquare', fields ['text', 'bar']
         db.create_unique(u'bingo_bingosquare', ['text', 'bar_id'])
 
-        # Adding model 'CardOnSquare'
-        db.create_table(u'bingo_cardonsquare', (
+        # Adding model 'SquareOnCard'
+        db.create_table(u'bingo_squareoncard', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('create_date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('modify_date', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
@@ -62,15 +62,15 @@ class Migration(SchemaMigration):
             ('needs_proof', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('needs_confirm', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
-        db.send_create_signal(u'bingo', ['CardOnSquare'])
+        db.send_create_signal(u'bingo', ['SquareOnCard'])
 
-        # Adding unique constraint on 'CardOnSquare', fields ['card', 'square']
-        db.create_unique(u'bingo_cardonsquare', ['card_id', 'square_id'])
+        # Adding unique constraint on 'SquareOnCard', fields ['card', 'square']
+        db.create_unique(u'bingo_squareoncard', ['card_id', 'square_id'])
 
 
     def backwards(self, orm):
-        # Removing unique constraint on 'CardOnSquare', fields ['card', 'square']
-        db.delete_unique(u'bingo_cardonsquare', ['card_id', 'square_id'])
+        # Removing unique constraint on 'SquareOnCard', fields ['card', 'square']
+        db.delete_unique(u'bingo_squareoncard', ['card_id', 'square_id'])
 
         # Removing unique constraint on 'BingoSquare', fields ['text', 'bar']
         db.delete_unique(u'bingo_bingosquare', ['text', 'bar_id'])
@@ -87,8 +87,8 @@ class Migration(SchemaMigration):
         # Deleting model 'BingoSquare'
         db.delete_table(u'bingo_bingosquare')
 
-        # Deleting model 'CardOnSquare'
-        db.delete_table(u'bingo_cardonsquare')
+        # Deleting model 'SquareOnCard'
+        db.delete_table(u'bingo_squareoncard')
 
 
     models = {
@@ -115,7 +115,7 @@ class Migration(SchemaMigration):
         },
         u'bingo.bingosquare': {
             'Meta': {'unique_together': "(('text', 'bar'),)", 'object_name': 'BingoSquare'},
-            'bar': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'bingo_squares'", 'to': u"orm['bingo.Bar']"}),
+            'bar': ('django.db.models.fields.related.ForeignKey', [], {'default': 'None', 'related_name': "'bingo_squares'", 'null': 'True', 'to': u"orm['bingo.Bar']"}),
             'create_date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_global': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
@@ -124,8 +124,8 @@ class Migration(SchemaMigration):
             'needs_proof': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'text': ('django.db.models.fields.CharField', [], {'max_length': '200'})
         },
-        u'bingo.cardonsquare': {
-            'Meta': {'unique_together': "(('card', 'square'),)", 'object_name': 'CardOnSquare'},
+        u'bingo.squareoncard': {
+            'Meta': {'unique_together': "(('card', 'square'),)", 'object_name': 'SquareOnCard'},
             'card': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'square'", 'to': u"orm['bingo.BingoCard']"}),
             'create_date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),

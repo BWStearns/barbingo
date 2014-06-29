@@ -24,6 +24,8 @@ Since the idea is to mainly make it easy to play from a phone I was thinking wri
 + JS (because fuck it, it owns the web)
 + Angular or Knockout?
     + Really anything other than Backbone, since the whole point of JS frameworks is to, you know, make JS NOT suck?
++ For mobile maybe http://phonegap.com/
+    + Looks fairly easy and quick to get running
 
 ## Feature List
 
