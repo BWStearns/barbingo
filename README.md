@@ -2,22 +2,28 @@
 
 ## Overview
 
+### The App
+
+Basically it's a game centered around a given bar. The bar can make squares for their establishment or allow them to be global for anyone to use. 
+
+Customers can say "I'm at SomeBar, I want to play" and it will make a new card for that night out of the available global/bar specific squares. 
+
+The idea is that it would be entertaining/might be good for some random or weekly kind of trivia-night-esque thing, get bingo get a drink, fill out the whole card get your tab half off, etc/whatever. Also since you can make bar specific stuff it tends towards encouraging regularism.
+
 ### Tech
 
 Backend is written in Python/Django. Front end is going to be JS/HTML plus whatever kind of mobile client stuff we come up with.
 
-# Details
+#### Details
+
+Since the idea is to mainly make it easy to play from a phone I was thinking write pretty much everything to be API driven from the start to avoid having to rewrite any backend shit. Also this means we can play a bit more with the JS framework we pick or if we're really ballsy we can dick around with native mobile.
+
+#### Stack
 + Python 2.7.5
 + Django 1.5
 + JS (because fuck it, it owns the web)
 + Angular or Knockout?
     + Really anything other than Backbone, since the whole point of JS frameworks is to, you know, make JS NOT suck?
-
-### The App
-
-Basically it's a game centered around a given bar. The bar can make squares for their establishment or allow them to be global for anyone to use. 
-
-Customers can say "I'm at SomeBar, I want to play" and it will make a new card for that night out of the available global/bar specific squares. The idea is that it would be entertaining/might be good for some random or weekly kind of trivia-night-esque thing.
 
 ## Feature List
 
