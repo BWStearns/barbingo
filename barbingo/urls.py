@@ -15,5 +15,6 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
 
+    url(r'^game/(?P<game_id>[0-9]+)/card/(?P<card_id>[0-9]+)/$', 'bingo.views.get_card'),
     url(r'^game/(?P<game_id>[0-9]+)/$', 'bingo.views.get_game'),
 )

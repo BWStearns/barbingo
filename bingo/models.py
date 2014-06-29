@@ -79,6 +79,15 @@ class BingoCard(Defmix):
         r_to_l = [(x*5)+y for x,y in zip(range(5), range(4, -1, -1))]
         return bool([s.is_found for s in self.squares if s.id in r_to_l])
 
+    def check_for_wins(self):
+        wins = []
+        for r_or_c in range(5):
+            if self.row_full(r_or_c):
+                wins.append("R{0}".format(r_or_c))
+            if self.col_full(r_or_c):
+                wins.append("C{0}".format(r_or_c))
+        return wins
+
 
 class BingoSquare(Defmix):
     text = models.CharField(max_length=200)
@@ -124,3 +133,6 @@ class SquareOnCard(Defmix):
     @property
     def is_found(self):
         return self.status == "F"
+
+    def confirm(self):
+        self.status = "F"
