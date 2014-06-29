@@ -13,9 +13,23 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('create_date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('modify_date', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
+            ('owner', self.gf('django.db.models.fields.related.ForeignKey')(related_name='bars', to=orm['accounts.Account'])),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=200)),
         ))
         db.send_create_signal(u'bingo', ['Bar'])
+
+        # Adding model 'BarAdministration'
+        db.create_table(u'bingo_baradministration', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('create_date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('modify_date', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
+            ('admin', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['accounts.Account'])),
+            ('bar', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['bingo.Bar'])),
+        ))
+        db.send_create_signal(u'bingo', ['BarAdministration'])
+
+        # Adding unique constraint on 'BarAdministration', fields ['admin', 'bar']
+        db.create_unique(u'bingo_baradministration', ['admin_id', 'bar_id'])
 
         # Adding model 'BingoGame'
         db.create_table(u'bingo_bingogame', (
@@ -58,25 +72,33 @@ class Migration(SchemaMigration):
             ('modify_date', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
             ('card', self.gf('django.db.models.fields.related.ForeignKey')(related_name='square', to=orm['bingo.BingoCard'])),
             ('square', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['bingo.BingoSquare'])),
+            ('position', self.gf('django.db.models.fields.IntegerField')()),
             ('status', self.gf('django.db.models.fields.CharField')(default='U', max_length=2)),
             ('needs_proof', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('needs_confirm', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('text', self.gf('django.db.models.fields.CharField')(max_length=200)),
         ))
         db.send_create_signal(u'bingo', ['SquareOnCard'])
 
-        # Adding unique constraint on 'SquareOnCard', fields ['card', 'square']
-        db.create_unique(u'bingo_squareoncard', ['card_id', 'square_id'])
+        # Adding unique constraint on 'SquareOnCard', fields ['card', 'square', 'position']
+        db.create_unique(u'bingo_squareoncard', ['card_id', 'square_id', 'position'])
 
 
     def backwards(self, orm):
-        # Removing unique constraint on 'SquareOnCard', fields ['card', 'square']
-        db.delete_unique(u'bingo_squareoncard', ['card_id', 'square_id'])
+        # Removing unique constraint on 'SquareOnCard', fields ['card', 'square', 'position']
+        db.delete_unique(u'bingo_squareoncard', ['card_id', 'square_id', 'position'])
 
         # Removing unique constraint on 'BingoSquare', fields ['text', 'bar']
         db.delete_unique(u'bingo_bingosquare', ['text', 'bar_id'])
 
+        # Removing unique constraint on 'BarAdministration', fields ['admin', 'bar']
+        db.delete_unique(u'bingo_baradministration', ['admin_id', 'bar_id'])
+
         # Deleting model 'Bar'
         db.delete_table(u'bingo_bar')
+
+        # Deleting model 'BarAdministration'
+        db.delete_table(u'bingo_baradministration')
 
         # Deleting model 'BingoGame'
         db.delete_table(u'bingo_bingogame')
@@ -92,12 +114,29 @@ class Migration(SchemaMigration):
 
 
     models = {
+        u'accounts.account': {
+            'Meta': {'object_name': 'Account'},
+            'email': ('django.db.models.fields.EmailField', [], {'unique': 'True', 'max_length': '254', 'db_index': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
+            'username': ('django.db.models.fields.CharField', [], {'max_length': '50'})
+        },
         u'bingo.bar': {
             'Meta': {'object_name': 'Bar'},
             'create_date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'modify_date': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '200'})
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
+            'owner': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'bars'", 'to': u"orm['accounts.Account']"})
+        },
+        u'bingo.baradministration': {
+            'Meta': {'unique_together': "(('admin', 'bar'),)", 'object_name': 'BarAdministration'},
+            'admin': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['accounts.Account']"}),
+            'bar': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['bingo.Bar']"}),
+            'create_date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'modify_date': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
         },
         u'bingo.bingocard': {
             'Meta': {'object_name': 'BingoCard'},
@@ -125,15 +164,17 @@ class Migration(SchemaMigration):
             'text': ('django.db.models.fields.CharField', [], {'max_length': '200'})
         },
         u'bingo.squareoncard': {
-            'Meta': {'unique_together': "(('card', 'square'),)", 'object_name': 'SquareOnCard'},
+            'Meta': {'unique_together': "(('card', 'square', 'position'),)", 'object_name': 'SquareOnCard'},
             'card': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'square'", 'to': u"orm['bingo.BingoCard']"}),
             'create_date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'modify_date': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'needs_confirm': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'needs_proof': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'position': ('django.db.models.fields.IntegerField', [], {}),
             'square': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['bingo.BingoSquare']"}),
-            'status': ('django.db.models.fields.CharField', [], {'default': "'U'", 'max_length': '2'})
+            'status': ('django.db.models.fields.CharField', [], {'default': "'U'", 'max_length': '2'}),
+            'text': ('django.db.models.fields.CharField', [], {'max_length': '200'})
         }
     }
 
