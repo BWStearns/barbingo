@@ -1,6 +1,9 @@
 from random import shuffle
 
 from django.db import models
+from django.contrib.auth import get_user_model
+Account = get_user_model()
+# from django.contrib.auth.decorators import permission_required
 
 
 class Defmix(models.Model):
@@ -12,15 +15,28 @@ class Defmix(models.Model):
 
 
 class Bar(Defmix):
+    owner = models.ForeignKey(Account, related_name='bars')
     name = models.CharField(max_length=200)
 
     @classmethod
     def test_setup(cls):
-        bar, is_new = cls.objects.get_or_create(name="Parkside")
+        me = Account.objects.get(email="brianw.stearns@gmail.com")
+        bar, is_new = cls.objects.get_or_create(name="Parkside", owner=me)
         game = BingoGame.objects.create(bar=bar)
         card = BingoCard.objects.create(game=game)
         card.make_card()
         return card, game
+
+
+class BarAdministration(Defmix):
+    admin = models.ForeignKey(Account)
+    bar = models.ForeignKey(Bar)
+
+    class Meta:
+        unique_together = ("admin", "bar")
+
+    def is_owner(self):
+        return self.bar.owner_id == self.admin_id
 
 
 class BingoGame(Defmix):
@@ -32,7 +48,7 @@ class BingoCard(Defmix):
 
     @property
     def squares(self):
-        return self.square.all().order_by("id")
+        return sorted(list(self.square.all()), key=lambda c: c.position)
 
     def make_card(self, prefer_local=False):
         import ipdb; ipdb.set_trace()
@@ -89,13 +105,21 @@ class SquareOnCard(Defmix):
     status = models.CharField(max_length=2, choices=STATUSES, default="U")
     needs_proof = models.BooleanField(default=False)
     needs_confirm = models.BooleanField(default=False)
+    text = models.CharField(max_length=200)
 
     class Meta:
         unique_together = ('card', 'square', 'position')
 
     @classmethod
     def make(cls, card, square, pos, *args, **kwargs):
-        return cls(**{"card": card, "square": square,"needs_confirm": square.needs_confirm,"needs_proof": square.needs_proof, "position": pos})
+        return cls(**{
+            "card": card,
+            "square": square,
+            "needs_confirm": square.needs_confirm,
+            "needs_proof": square.needs_proof,
+            "position": pos,
+            "text": square.text,
+            })
 
     @property
     def is_found(self):

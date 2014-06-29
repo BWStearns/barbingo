@@ -24,12 +24,29 @@ class Migration(DataMigration):
             orm.BingoSquare.objects.filter(text__in=starter_squares).delete()
 
     models = {
+        u'accounts.account': {
+            'Meta': {'object_name': 'Account'},
+            'email': ('django.db.models.fields.EmailField', [], {'unique': 'True', 'max_length': '254', 'db_index': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
+            'username': ('django.db.models.fields.CharField', [], {'max_length': '50'})
+        },
         u'bingo.bar': {
             'Meta': {'object_name': 'Bar'},
             'create_date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'modify_date': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '200'})
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
+            'owner': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'bars'", 'to': u"orm['accounts.Account']"})
+        },
+        u'bingo.baradministration': {
+            'Meta': {'unique_together': "(('admin', 'bar'),)", 'object_name': 'BarAdministration'},
+            'admin': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['accounts.Account']"}),
+            'bar': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['bingo.Bar']"}),
+            'create_date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'modify_date': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
         },
         u'bingo.bingocard': {
             'Meta': {'object_name': 'BingoCard'},
@@ -57,15 +74,17 @@ class Migration(DataMigration):
             'text': ('django.db.models.fields.CharField', [], {'max_length': '200'})
         },
         u'bingo.squareoncard': {
-            'Meta': {'unique_together': "(('card', 'square'),)", 'object_name': 'SquareOnCard'},
+            'Meta': {'unique_together': "(('card', 'square', 'position'),)", 'object_name': 'SquareOnCard'},
             'card': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'square'", 'to': u"orm['bingo.BingoCard']"}),
             'create_date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'modify_date': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'needs_confirm': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'needs_proof': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'position': ('django.db.models.fields.IntegerField', [], {}),
             'square': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['bingo.BingoSquare']"}),
-            'status': ('django.db.models.fields.CharField', [], {'default': "'U'", 'max_length': '2'})
+            'status': ('django.db.models.fields.CharField', [], {'default': "'U'", 'max_length': '2'}),
+            'text': ('django.db.models.fields.CharField', [], {'max_length': '200'})
         }
     }
 
