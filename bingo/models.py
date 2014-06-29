@@ -24,6 +24,7 @@ class BingoCard(models.Model, Defmix):
 class BingoSquare(models.Model, Defmix):
     text = models.CharField(max_length=200)
     bar = models.ForeignKey(Bar, related_name='bingo_squares')
+    is_global = models.BooleanField(default=True)
     needs_proof = models.BooleanField(default=False)
     needs_confirm = models.BooleanField(default=False)
 
