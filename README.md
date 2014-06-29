@@ -34,6 +34,7 @@ Since the idea is to mainly make it easy to play from a phone I was thinking wri
     + Allow creation of squares
     + Generate unique gameboards for a group
     + Limit
+    + JSON endpoints - *got one, more coming soon*
 + User Models and Permissions - *in progress*
 + Bar models to own/limit games - *in progress*
 + 'Evidence'
