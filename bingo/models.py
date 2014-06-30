@@ -134,5 +134,22 @@ class SquareOnCard(Defmix):
     def is_found(self):
         return self.status == "F"
 
-    def confirm(self):
+# Here's where we deal with the POST responses
+
+    def _confirm(self):
         self.status = "F"
+        self.save()
+
+    @classmethod
+    def confirm(cls, square_to_confirm):
+        sq = cls.objects.get(id=square_to_confirm)
+        sq._confirm()
+
+    def _reject(self):
+        self.status = "U"
+        self.save()
+
+    @classmethod
+    def reject(cls, square_to_reject):
+        sq = cls.objects.get(id=square_to_reject)
+        sq._reject()

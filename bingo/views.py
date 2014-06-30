@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.conf import settings
 
-from models import BingoGame, BingoCard
+from models import BingoGame, BingoCard, SquareOnCard
 
 
 def get_game(request, game_id):
@@ -34,3 +34,21 @@ def get_card(request, game_id, card_id):
     data = json.dumps(data)
     content_type = 'application/json'
     return HttpResponse(data, content_type=content_type)
+
+def mark_as_confirmed(request):
+    user = request.user
+    if request.method == "POST":
+        data = request.POST
+        if data.get("confirm"):
+            try:
+                SquareOnCard.confirm(data["confirm"])
+            except:
+                data = {"Status": "Success"}
+        elif data.get("reject"):
+            try:
+                SquareOnCard.reject(data["reject"])
+            except:
+                data = {"Status": "Failure"}
+    content_type = 'application/json'
+    return HttpResponse(data, content_type=content_type)
+
