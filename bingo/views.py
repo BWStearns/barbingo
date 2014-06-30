@@ -35,6 +35,7 @@ def get_card(request, game_id, card_id):
     content_type = 'application/json'
     return HttpResponse(data, content_type=content_type)
 
+
 def mark_as_confirmed(request):
     user = request.user
     if request.method == "POST":
@@ -52,3 +53,7 @@ def mark_as_confirmed(request):
     content_type = 'application/json'
     return HttpResponse(data, content_type=content_type)
 
+
+def main_view(request):
+    cxt = {}
+    return render(request, 'main.html', cxt)

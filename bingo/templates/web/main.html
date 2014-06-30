@@ -1,0 +1,25 @@
+{% load staticfiles %}
+
+<html ng-app="barBingo">
+<head>
+{% block extra_head %}
+    <script type="text/javascript" src="{% static "js/angular.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/controllers.js" %}"></script>
+{% endblock %}
+</head>
+
+<body ng-controller="BingoBoardCtrl">
+<ul>
+{% verbatim %}
+    <li ng-repeat="square in squares">
+    {{square.pos}}
+    <p>
+        {{square.text}}
+    </p>
+    </li>
+{% endverbatim %}
+</ul>
+
+</body>
+
+</html>

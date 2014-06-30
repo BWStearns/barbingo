@@ -1,7 +1,11 @@
 # Django settings for barbingo project.
+import os
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+
+SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -69,6 +73,7 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
+    os.path.join(SETTINGS_PATH, 'static/js').replace('\\','/'),
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -111,6 +116,9 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(SETTINGS_PATH, 'bingo/templates').replace('\\','/'),
+    os.path.join(SETTINGS_PATH, 'bingo/templates/web').replace('\\','/'),
+    os.path.join(SETTINGS_PATH, 'bingo/templates/mobile').replace('\\','/'),
 )
 
 INSTALLED_APPS = (
@@ -130,6 +138,13 @@ INSTALLED_APPS = (
 )
 
 AUTH_USER_MODEL = 'accounts.Account'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, '/bingo/static/js'),
+    os.path.join(BASE_DIR, '/bingo/static/css'),
+    os.path.join(BASE_DIR, '/bingo/static/images'),
+)
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
