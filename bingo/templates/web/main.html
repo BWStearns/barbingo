@@ -5,20 +5,20 @@
 {% block extra_head %}
     <script type="text/javascript" src="{% static "js/angular.js" %}"></script>
     <script type="text/javascript" src="{% static "js/controllers.js" %}"></script>
+    <link rel="stylesheet" href="{% static "css/main.css" %}" type="text/css" media="screen" />
 {% endblock %}
 </head>
 
 <body ng-controller="BingoBoardCtrl">
-<ul>
+<div class="board">
 {% verbatim %}
-    <li ng-repeat="square in squares">
-    {{square.pos}}
-    <p>
+<div ng-repeat="square in squares">
+    <div class="square">
         {{square.text}}
-    </p>
-    </li>
+    </div>
+</div>
 {% endverbatim %}
-</ul>
+</div>
 
 </body>
 

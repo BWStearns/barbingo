@@ -1,0 +1,13 @@
+.board {
+    width: 500px;
+    height: 500px;
+}
+
+.square { 
+    color: blue;
+    height: 100px;
+    width: 100px;
+    display: block;
+    float: left;
+    outline: 1px solid;
+}
