@@ -11,3 +11,8 @@
     float: left;
     outline: 1px solid;
 }
+
+.square p {
+    text-align: center;
+    vertical-align: middle;
+}
