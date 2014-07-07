@@ -29,9 +29,7 @@ def get_game(request, game_id):
 def specific_card(request, game_id, card_id):
     if request.method == "GET":
         card = BingoCard.objects.prefetch_related('square').get(id=card_id, game_id=game_id)
-        data = {
-            "squares": {s.position: {"status": s.get_status_display(), "text": s.text, "position": s.position,  "id": s.id} for s in card.squares},
-        }
+        data = {"squares": [{"status": s.get_status_display(), "text": s.text, "position": s.position,  "id": s.id} for s in card.squares]}
         data = json.dumps(data)
         content_type = 'application/json'
         return HttpResponse(data, content_type=content_type)

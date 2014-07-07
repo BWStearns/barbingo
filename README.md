@@ -37,7 +37,7 @@ Since the idea is to mainly make it easy to play from a phone I was thinking wri
         + .... and for groups
     + Limit
     + JSON endpoints
-        + Maybe frontend but Unfuck ordering. Alphasort currently instead of natural sort.
+        + Unfuck ordering -*done*
         + Generally unfuck and standardize API
             + Unfuck after most of it is built
             + All ideas for an actual strategy welcomed
