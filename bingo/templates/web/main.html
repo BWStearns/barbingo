@@ -12,7 +12,7 @@
 <body ng-controller="BingoBoardCtrl">
 <div class="board">
 {% verbatim %}
-<div ng-repeat="square in squares">
+<div ng-repeat="square in squares | orderBy: 'position'">
     <div class="square {{ square.status }}" ng-click="clickSquare(square)">
         <p>{{square.text}}</p>
         <p>{{square.position}}</p>

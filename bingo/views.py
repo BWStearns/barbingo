@@ -19,7 +19,7 @@ def get_game(request, game_id):
 
     for c in game.bingo_cards.all():
         data["cards"][c.id] = {
-            "squares": {s.position: {"status": s.status, "text": s.text, "id": s.id} for s in c.squares},
+            "squares": [{"position": s.position, "status": s.status, "text": s.text, "id": s.id} for s in c.squares],
         }
     data = json.dumps(data)
     content_type = 'application/json'
