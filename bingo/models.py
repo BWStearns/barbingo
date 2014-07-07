@@ -66,18 +66,18 @@ class BingoCard(Defmix):
         SquareOnCard.objects.bulk_create(squares)
 
     def row_full(self, row):
-        return bool([s.is_found for s in self.squares[row*5:row*5+5]])
+        return all([s.is_found for s in self.squares[row*5:row*5+5]])
 
     def col_full(self, col):
-        return bool([s.is_found for s in self.squares if (s.position%5) == col])
+        return all([s.is_found for s in self.squares if (s.position%5) == col])
 
     def l_diag_full(self):
         l_to_r = [(x*5)+y for x,y in zip(range(5), range(5))]
-        return bool([s.is_found for s in self.squares if s.id in l_to_r])
+        return all([s.is_found for s in self.squares if s.id in l_to_r])
 
     def r_diag_full(self):
         r_to_l = [(x*5)+y for x,y in zip(range(5), range(4, -1, -1))]
-        return bool([s.is_found for s in self.squares if s.id in r_to_l])
+        return all([s.is_found for s in self.squares if s.id in r_to_l])
 
     def check_for_wins(self):
         wins = []
