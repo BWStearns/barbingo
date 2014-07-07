@@ -13,8 +13,10 @@
 <div class="board">
 {% verbatim %}
 <div ng-repeat="square in squares">
-    <div class="square">
+    <div class="square {{ square.status }}" ng-click="clickSquare(square)">
         <p>{{square.text}}</p>
+        <p>{{square.position}}</p>
+        <p>{{square.id}}</p>
     </div>
 </div>
 {% endverbatim %}

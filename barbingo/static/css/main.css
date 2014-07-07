@@ -4,12 +4,23 @@
 }
 
 .square { 
-    color: blue;
     height: 100px;
     width: 100px;
     display: block;
     float: left;
-    outline: 1px solid;
+    outline: 1px solid;cdy
+}
+
+.unfound  {
+    color: red;
+}
+
+.awaiting  {
+    color: yellow;
+}
+
+.found  {
+    color: green;
 }
 
 .square p {

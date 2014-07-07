@@ -153,3 +153,22 @@ class SquareOnCard(Defmix):
     def reject(cls, square_to_reject):
         sq = cls.objects.get(id=square_to_reject)
         sq._reject()
+
+    def _promote(self):
+        if self.status == "U":
+            if self.needs_confirm:
+                self.status = "A"
+            else:
+                self.status = "F"
+            self.save()
+        else:
+            pass
+        return self
+
+    # Need square to data method
+    @classmethod
+    def promote(cls, square_to_promote):
+        sq = cls.objects.get(id=square_to_promote["id"])
+        print sq.__dict__
+        sq._promote()
+        return sq

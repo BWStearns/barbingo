@@ -20,7 +20,7 @@ urlpatterns = patterns('',
     
     url(r'^main/$', 'bingo.views.main_view'),
     
-    url(r'^api/v0/game/(?P<game_id>[0-9]+)/card/(?P<card_id>[0-9]+)/$', 'bingo.views.get_card'),
+    url(r'^api/v0/game/(?P<game_id>[0-9]+)/card/(?P<card_id>[0-9]+)/$', 'bingo.views.specific_card'),
     
     url(r'^game/(?P<game_id>[0-9]+)/$', 'bingo.views.get_game'),
     
