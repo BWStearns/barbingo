@@ -73,11 +73,11 @@ class BingoCard(Defmix):
 
     def l_diag_full(self):
         l_to_r = [(x*5)+y for x,y in zip(range(5), range(5))]
-        return all([s.is_found for s in self.squares if s.id in l_to_r])
+        return all([s.is_found for s in self.squares if s.position in l_to_r])
 
     def r_diag_full(self):
         r_to_l = [(x*5)+y for x,y in zip(range(5), range(4, -1, -1))]
-        return all([s.is_found for s in self.squares if s.id in r_to_l])
+        return all([s.is_found for s in self.squares if s.position in r_to_l])
 
     def check_for_wins(self):
         wins = []
@@ -86,6 +86,10 @@ class BingoCard(Defmix):
                 wins.append("R{0}".format(r_or_c))
             if self.col_full(r_or_c):
                 wins.append("C{0}".format(r_or_c))
+        if self.l_diag_full():
+            wins.append("DL")
+        if self.r_diag_full():
+            wins.append("DR")
         return wins
 
 
