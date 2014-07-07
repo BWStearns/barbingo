@@ -42,9 +42,13 @@ class BarAdministration(Defmix):
 class BingoGame(Defmix):
     bar = models.ForeignKey(Bar, related_name='bingo_games')
 
+    def declare_winner(self, winner):
+        pass
+
 
 class BingoCard(Defmix):
     game = models.ForeignKey(BingoGame, related_name='bingo_cards')
+    user = None
 
     @property
     def squares(self):

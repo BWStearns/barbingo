@@ -30,6 +30,8 @@ Since the idea is to mainly make it easy to play from a phone I was thinking wri
 ## Feature List
 
 + Actual Bingo Game - *in progress*
+    + `best_contribution` square?
+        + Patrons submit photos or something and ref picks?
     + Get models and shit built out - *pretty much done*
         + Make a serialization method for all objects to avoid ad-hoc bullshit
     + Allow creation of squares
