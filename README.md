@@ -49,6 +49,7 @@ Since the idea is to mainly make it easy to play from a phone I was thinking wri
             + show photos - *needed*
             + status and confirm for proof squares - *needed*
 + User Models and Permissions - *in progress*
+    + Figure out how permissions work - *in progress*
 + Bar models to own/limit games - *in progress*
 + 'Evidence'
     + Allow certain squares to require evidence, like a picture or something.
