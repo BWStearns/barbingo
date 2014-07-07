@@ -30,11 +30,24 @@ Since the idea is to mainly make it easy to play from a phone I was thinking wri
 ## Feature List
 
 + Actual Bingo Game - *in progress*
-    + Get models and shit built out - *mostly done*
+    + Get models and shit built out - *pretty much done*
+        + Make a serialization method for all objects to avoid ad-hoc bullshit
     + Allow creation of squares
-    + Generate unique gameboards for a group
+    + Generate unique gameboards
+        + .... and for groups
     + Limit
-    + JSON endpoints - *got one, more coming soon*
+    + JSON endpoints
+        + Generally unfuck and standardize API
+            + Unfuck after most of it is built
+            + All ideas for an actual strategy welcomed
+        + Get all boards for a game - *done*
+        + Get board - *done*
+        + Claim square as found - *done*
+        + Mark square as confirmed - *done*
+        + `require_proof` Squares
+            + recieve photos - *needed*
+            + show photos - *needed*
+            + status and confirm for proof squares - *needed*
 + User Models and Permissions - *in progress*
 + Bar models to own/limit games - *in progress*
 + 'Evidence'
@@ -42,6 +55,8 @@ Since the idea is to mainly make it easy to play from a phone I was thinking wri
     + Have an account associated with the bar be able to confirm the square.
     + Allow the bar to have access to the evidence photos for promo purposes?
 + Get the front-end sorted out 
-    + Make the web interface so that a bar can set something up.
+    + Make the web interface so that a bar can set something up - *done*
+        + Make the add/delete squares views
+        + Make the game management views
     + Make it at the very least mobile friendly, ideally a semi-native client.
 + More shit I haven't bothered to write here yet.
