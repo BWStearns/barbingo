@@ -16,12 +16,12 @@ Backend is written in Python/Django. Front end is going to be JS/HTML plus whate
 
 #### Details
 
-Since the idea is to mainly make it easy to play from a phone I was thinking write pretty much everything to be API driven from the start to avoid having to rewrite any backend shit. Also this means we can play a bit more with the JS framework we pick or if we're really ballsy we can dick around with native mobile.
+Since the idea is to mainly make it easy to play from a phone I was thinking write pretty much everything to be API driven from the start to avoid having to rewrite any backend stuff. Also this means we can play a bit more with the JS framework we pick or if we're really ambitious we can mess around with native mobile.
 
 #### Stack
 + Python 2.7.5
 + Django 1.5
-+ JS (because fuck it, it owns the web)
++ JS (because screw it, it owns the web)
 + Angular or Knockout?
     + Really anything other than Backbone, since the whole point of JS frameworks is to, you know, make JS NOT suck?
 + For mobile maybe http://phonegap.com/
@@ -32,16 +32,16 @@ Since the idea is to mainly make it easy to play from a phone I was thinking wri
 + Actual Bingo Game - *in progress*
     + `best_contribution` square?
         + Patrons submit photos or something and ref picks?
-    + Get models and shit built out - *pretty much done*
-        + Make a serialization method for all objects to avoid ad-hoc bullshit
+    + Get models and stuff built out - *pretty much done*
+        + Make a serialization method for all objects to avoid ad-hoc BS
     + Allow creation of squares
     + Generate unique gameboards
         + .... and for groups
     + Limit
     + JSON endpoints
-        + Unfuck ordering -*done*
-        + Generally unfuck and standardize API
-            + Unfuck after most of it is built
+        + Unscrew ordering -*done*
+        + Generally unscrew and standardize API
+            + Unscrew after most of it is built
             + All ideas for an actual strategy welcomed
         + Get all boards for a game - *done*
         + Get board - *done*
@@ -63,4 +63,4 @@ Since the idea is to mainly make it easy to play from a phone I was thinking wri
         + Make the add/delete squares views
         + Make the game management views
     + Make it at the very least mobile friendly, ideally a semi-native client.
-+ More shit I haven't bothered to write here yet.
++ More stuff I haven't bothered to write here yet.
